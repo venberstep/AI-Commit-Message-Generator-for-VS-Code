@@ -1,4 +1,4 @@
-[English README](README.md) | [日本語版 README](README.ja.md)
+[English README](README.md)
 
 [![Version](https://img.shields.io/badge/version-v1.0.0-4094ff.svg)](https://marketplace.visualstudio.com/)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
