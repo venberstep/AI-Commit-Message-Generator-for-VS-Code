@@ -1,0 +1,76 @@
+{
+  "publisher": "venberstep",
+  "name": "ai-commit-message",
+  "displayName": "AI Commit Message Generator for VS Code",
+  "description": "VS Code 插件：通过第三方 AI API（OpenAI、Azure、本地 LLM 等兼容接口）自动生成 Git Commit Message。A VS Code extension that generates Git commit messages via third-party AI APIs (OpenAI-compatible endpoints).",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/user/ai-commit-message"
+  },
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "icon": "resources/icons/logo.png",
+  "categories": [
+    "Other"
+  ],
+  "configuration": {
+    "title": "AI Commit Message Generator",
+    "properties": {
+      "ai-commit-message.apiUrl": {
+        "type": "string",
+        "default": "https://api.openai.com/v1/chat/completions",
+        "description": "API Base URL (e.g. https://api.openai.com/v1/chat/completions)"
+      },
+      "ai-commit-message.model": {
+        "type": "string",
+        "default": "gpt-3.5-turbo",
+        "description": "Model Name (e.g. gpt-3.5-turbo, gpt-4)"
+      }
+    }
+  },
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ai-commit-message.generate",
+        "title": "AI: Generate Commit Message",
+        "icon": "$(wand)"
+      },
+      {
+        "command": "ai-commit-message.clearApiKey",
+        "title": "AI: Clear API Key"
+      }
+    ],
+    "menus": {
+      "scm/title": [
+        {
+          "command": "ai-commit-message.generate",
+          "group": "navigation@100",
+          "when": "scmProvider == git"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.100.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/parser": "^8.39.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.32.0",
+    "typescript": "^5.9.2"
+  }
+}
