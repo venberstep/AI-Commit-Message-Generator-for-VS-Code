@@ -1,72 +1,24 @@
 import * as vscode from 'vscode';
 
-// 中文提示词 - 结构化 Conventional Commits 规范
-const PROMPT_ZH = `# Role
-你是一位资深的 Code Reviewer。你的任务是阅读 git diff，撰写符合 Conventional Commits 规范的 Git 提交信息。
+// 中文提示词 - 精简版
+const PROMPT_ZH = `根据 git diff 生成 Conventional Commits 规范的提交信息。
 
-# Task
-分析代码变更的**业务意图**（不仅是语法变更），生成一段标准的提交信息文本。
+要求:
+- Header: <type>(<scope>): <中文描述，50字内，祈使语气，无句号>
+- Body: 必须包含，用 - 列表说明修改原因和逻辑
+- 忽略纯格式化变动（除非是 style 类型）
+- 识别 Breaking Change 并标注
+- 仅输出提交信息，不要代码块或解释`;
 
-# Constraints & Guidelines
+// 英文提示词 - 精简版
+const PROMPT_EN = `Generate a Conventional Commits message from the git diff.
 
-1. **格式结构** (严格遵守):
-   <type>(<scope>): <subject>
-
-   <body>
-
-   <footer> (可选，如 Closes #123)
-
-2. **Header 要求**:
-   - Type: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
-   - Scope: (可选) 变更的模块/文件名
-   - Subject: 中文，50字以内，祈使语气，结尾不要加句号
-
-3. **Body 要求**:
-   - 必须包含
-   - 在 Header 下方空一行
-   - 使用列表符 - 分条描述"为什么修改"及"修改了什么逻辑"
-
-4. **内容原则**:
-   - 忽略纯格式化（Whitespace）变动，除非是 style 类型
-   - 识别 Breaking Change 并按规范标注
-
-5. **输出要求**:
-   - 仅输出提交信息文本本身
-   - 不要包含 git commit 命令、引号、代码块符号或其他任何解释性文字`;
-
-// 英文提示词
-const PROMPT_EN = `# Role
-You are a senior Code Reviewer. Your task is to read the git diff and write a Git commit message that conforms to the Conventional Commits specification.
-
-# Task
-Analyze the **business intent** of the code changes (not just syntax changes) and generate a standard commit message.
-
-# Constraints & Guidelines
-
-1. **Format Structure** (strictly follow):
-   <type>(<scope>): <subject>
-
-   <body>
-
-   <footer> (optional, e.g., Closes #123)
-
-2. **Header Requirements**:
-   - Type: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
-   - Scope: (optional) module/filename being changed
-   - Subject: English, max 50 chars, imperative mood, no period at end
-
-3. **Body Requirements**:
-   - Must be included
-   - Blank line after Header
-   - Use - bullet points to describe "why" and "what logic changed"
-
-4. **Content Principles**:
-   - Ignore pure formatting (whitespace) changes unless it's a style type
-   - Identify Breaking Changes and mark according to spec
-
-5. **Output Requirements**:
-   - Output ONLY the commit message text itself
-   - Do NOT include git commit command, quotes, code block markers, or any explanatory text`;
+Requirements:
+- Header: <type>(<scope>): <English, max 50 chars, imperative, no period>
+- Body: Required, use - bullets for "why" and "what changed"
+- Ignore whitespace-only changes (unless style type)
+- Mark Breaking Changes per spec
+- Output ONLY the commit message, no code blocks or explanation`;
 
 export async function generateCommitMessage(diff: string, locale: string, apiKey: string): Promise<string> {
     const config = vscode.workspace.getConfiguration('ai-commit-message');
