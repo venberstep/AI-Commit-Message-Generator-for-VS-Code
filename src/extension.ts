@@ -3,7 +3,7 @@
 import * as vscode from 'vscode';
 import { provider } from './provider';
 import { getGitDiff } from './git';
-import { generateCommitMessage } from './api';
+import { generateCommitMessage, type APIProvider } from './api';
 
 // 语言判定: VSCode 的 UI 语言是否为中文 (zh*)
 const isChinese = (): boolean => {
@@ -25,6 +25,12 @@ const M = {
 		errorSet: (e: any) => (isChinese() ? `[错误] 设置提交消息失败: ${e?.message ?? e}` : `[Error] Failed to set commit message: ${e?.message ?? e}`),
 		copiedDone: () => (isChinese() ? '\n[已将提交消息转录到输入栏]' : '\n[Commit message pasted into input]'),
 		noDiff: () => (isChinese() ? '[信息] 未检测到暂存区更改。' : '[Info] No staged changes detected.'),
+	},
+	apiConfig: {
+		selectProvider: () => (isChinese() ? '请选择 API 提供者' : 'Select API Provider'),
+		selectProviderTip: () => (isChinese() ? '选择一个 AI API 提供者' : 'Choose an AI API provider'),
+		configureSettings: () => (isChinese() ? '配置设置' : 'Configure Settings'),
+		openSettings: () => (isChinese() ? '打开设置' : 'Open Settings'),
 	},
 };
 
@@ -92,6 +98,31 @@ export function activate(context: vscode.ExtensionContext) {
 		return undefined;
 	}
 
+	// 检查或提示配置 API 设置
+	async function ensureAPIConfigured(): Promise<boolean> {
+		const config = vscode.workspace.getConfiguration('ai-commit-message');
+		const provider = config.get<string>('apiProvider', 'openai');
+		const apiUrl = config.get<string>('apiUrl');
+		const model = config.get<string>('model');
+
+		// 如果任何配置缺失，提示用户
+		if (!apiUrl || !model) {
+			const selection = await vscode.window.showWarningMessage(
+				isChinese()
+					? 'AI Commit Message 需要配置 API 提供者'
+					: 'AI Commit Message needs API configuration',
+				M.apiConfig.configureSettings()
+			);
+
+			if (selection === M.apiConfig.configureSettings()) {
+				await vscode.commands.executeCommand('workbench.action.openSettings', 'ai-commit-message');
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	// 清除 API Key 命令
 	const clearKeyCmd = vscode.commands.registerCommand('ai-commit-message.clearApiKey', async () => {
 		await context.secrets.delete(SECRET_KEY);
@@ -106,6 +137,12 @@ export function activate(context: vscode.ExtensionContext) {
 		const workspacePath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
 		if (!workspacePath) {
 			output.appendLine(isChinese() ? '未找到工作区文件夹。' : 'No workspace folder found.');
+			return;
+		}
+
+		// 检查 API 配置
+		const configured = await ensureAPIConfigured();
+		if (!configured) {
 			return;
 		}
 
