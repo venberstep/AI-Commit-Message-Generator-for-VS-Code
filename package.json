@@ -6,7 +6,7 @@
   "version": "1.1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/venberstep/ai-commit-message"
+    "url": "https://github.com/venberstep/AI-Commit-Message-Generator-for-VS-Code"
   },
   "license": "MIT",
   "engines": {
