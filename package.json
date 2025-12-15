@@ -3,7 +3,7 @@
   "name": "ai-commit-message",
   "displayName": "AI Commit Message Generator for VS Code",
   "description": "VS Code 插件：通过第三方 AI API（OpenAI、Azure、本地 LLM 等兼容接口）自动生成 Git Commit Message。A VS Code extension that generates Git commit messages via third-party AI APIs (OpenAI-compatible endpoints).",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/venberstep/AI-Commit-Message-Generator-for-VS-Code"
@@ -16,34 +16,34 @@
   "categories": [
     "Other"
   ],
-  "configuration": {
-    "title": "AI Commit Message Generator",
-    "properties": {
-      "ai-commit-message.apiProvider": {
-        "type": "string",
-        "default": "openai",
-        "enum": ["openai", "claude", "azure", "custom"],
-        "description": "API Service Provider (openai, claude, azure, or custom endpoint)"
-      },
-      "ai-commit-message.apiUrl": {
-        "type": "string",
-        "default": "https://api.openai.com/v1/chat/completions",
-        "description": "API Base URL (default varies by provider: OpenAI: https://api.openai.com/v1/chat/completions, Claude: https://api.anthropic.com/v1/messages, Azure: https://{resource-name}.openai.azure.com/openai/deployments/{deployment-id}/chat/completions)"
-      },
-      "ai-commit-message.model": {
-        "type": "string",
-        "default": "gpt-3.5-turbo",
-        "description": "Model Name (e.g. gpt-3.5-turbo for OpenAI, claude-3-5-sonnet-20241022 for Claude)"
-      },
-      "ai-commit-message.apiKey": {
-        "type": "string",
-        "default": "",
-        "description": "[Optional] API Key (if not set, you'll be prompted at runtime)"
-      }
-    }
-  },
   "main": "./out/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "AI Commit Message Generator",
+      "properties": {
+        "ai-commit-message.apiProvider": {
+          "type": "string",
+          "default": "openai",
+          "enum": ["openai", "claude", "azure", "custom"],
+          "description": "API Service Provider (openai, claude, azure, or custom endpoint)"
+        },
+        "ai-commit-message.apiUrl": {
+          "type": "string",
+          "default": "https://api.openai.com/v1/chat/completions",
+          "description": "API Base URL (default varies by provider: OpenAI: https://api.openai.com/v1/chat/completions, Claude: https://api.anthropic.com/v1/messages, Azure: https://{resource-name}.openai.azure.com/openai/deployments/{deployment-id}/chat/completions)"
+        },
+        "ai-commit-message.model": {
+          "type": "string",
+          "default": "gpt-3.5-turbo",
+          "description": "Model Name (e.g. gpt-3.5-turbo for OpenAI, claude-3-5-sonnet-20241022 for Claude)"
+        },
+        "ai-commit-message.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "[Optional] API Key (if not set, you'll be prompted at runtime)"
+        }
+      }
+    },
     "commands": [
       {
         "command": "ai-commit-message.generate",
