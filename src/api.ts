@@ -18,7 +18,6 @@ const PROMPT_ZH = `根据 git diff 生成 Conventional Commits 规范的提交�
 - Header: <type>(<scope>): <中文描述，50字内，祈使语气，无句号>
 - Body: 必须包含，用 - 列表说明修改原因和逻辑
 - 忽略纯格式化变动（除非是 style 类型）
-- 识别 Breaking Change 并标注
 - 仅输出提交信息，不要代码块或解释`;
 
 // 英文提示词 - 精简版
@@ -28,7 +27,6 @@ Requirements:
 - Header: <type>(<scope>): <English, max 50 chars, imperative, no period>
 - Body: Required, use - bullets for "why" and "what changed"
 - Ignore whitespace-only changes (unless style type)
-- Mark Breaking Changes per spec
 - Output ONLY the commit message, no code blocks or explanation`;
 
 // 获取 API 提供者配置

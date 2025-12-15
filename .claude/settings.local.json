@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(npm run compile:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfix(config): 修复配置选项不显示的问题\n\n将 configuration 配置从顶层移动到 contributes 字段内，\n使 VS Code 能够正确识别和显示扩展设置选项（API Provider、\nAPI URL、Model、API Key）。\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git commit:*)",
+      "Bash(git push)",
+      "Bash(git reset:*)",
+      "Bash(git config:*)"
     ]
   }
 }
