@@ -12,20 +12,24 @@ interface APIProviderConfig {
 }
 
 // 中文提示词 - 精简版
-const PROMPT_ZH = `根据 git diff 生成 Conventional Commits 规范的提交信息。
+const PROMPT_ZH = `将 git diff 中的所有修改整合为**一条**符合 Conventional Commits 规范的提交信息。
 
 要求:
 - Header: <type>(<scope>): <中文描述，50字内，祈使语气，无句号>
+- 若修改涉及多个范围/模块，选择影响最大的作为 scope，或使用通用 scope
 - Body: 必须包含，用 - 列表说明修改原因和逻辑
+- 所有文件的修改必须合并到一个 Body 中，按逻辑分类而非按文件分组
 - 忽略纯格式化变动（除非是 style 类型）
 - 仅输出提交信息，不要代码块或解释`;
 
 // 英文提示词 - 精简版
-const PROMPT_EN = `Generate a Conventional Commits message from the git diff.
+const PROMPT_EN = `Consolidate ALL changes in the git diff into **a single** Conventional Commits message.
 
 Requirements:
 - Header: <type>(<scope>): <English, max 50 chars, imperative, no period>
+- If changes span multiple scopes, choose the most significant one or use a generic scope
 - Body: Required, use - bullets for "why" and "what changed"
+- Merge all file changes into ONE body, grouped by logic rather than by file
 - Ignore whitespace-only changes (unless style type)
 - Output ONLY the commit message, no code blocks or explanation`;
 

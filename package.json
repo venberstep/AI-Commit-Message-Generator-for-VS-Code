@@ -3,7 +3,7 @@
   "name": "ai-commit-message",
   "displayName": "AI Commit Message Generator for VS Code",
   "description": "VS Code 插件：通过第三方 AI API（OpenAI、Azure、本地 LLM 等兼容接口）自动生成 Git Commit Message。A VS Code extension that generates Git commit messages via third-party AI APIs (OpenAI-compatible endpoints).",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/venberstep/AI-Commit-Message-Generator-for-VS-Code"
@@ -24,7 +24,12 @@
         "ai-commit-message.apiProvider": {
           "type": "string",
           "default": "openai",
-          "enum": ["openai", "claude", "azure", "custom"],
+          "enum": [
+            "openai",
+            "claude",
+            "azure",
+            "custom"
+          ],
           "description": "API Service Provider (openai, claude, azure, or custom endpoint)"
         },
         "ai-commit-message.apiUrl": {
